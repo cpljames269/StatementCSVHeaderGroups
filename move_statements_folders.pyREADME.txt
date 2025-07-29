@@ -1,0 +1,61 @@
+move_statements_folders.py
+Purpose:
+Moves only the folders whose jobticket.xml indicates they are "Statements from CSV" into a dedicated statements subfolder for specialized handling or processing.
+
+How it works:
+
+Scans all folders under:
+
+makefile
+Copy
+Edit
+C:\testing
+For each subfolder:
+
+Looks for the first .xml file
+
+Parses the XML and checks the <product> field inside the <general> block
+
+If the value is "Statements from CSV", the entire folder is moved to:
+
+makefile
+Copy
+Edit
+C:\testing\statements
+Skips folders:
+
+Without an .xml file
+
+Where the <product> field is not "Statements from CSV"
+
+Output:
+Moves only the folders that match the target product to this location:
+
+python-repl
+Copy
+Edit
+C:\testing\statements\
+├── HOA123\
+│   ├── jobticket.xml
+│   └── original.csv
+├── HOA456\
+│   ├── jobticket.xml
+│   └── original.csv
+...
+Used for:
+
+Isolating statement jobs from other jobs before analysis or parsing
+
+A prep step before running analyze_find_similar.py (which expects only relevant folders)
+
+Typical Use Case:
+After running CopyXMLandCSVintoSeparateFolders.py, use this script to separate statement jobs from everything else.
+
+Notes:
+
+Parsing errors are logged to the console
+
+Won’t delete or overwrite folders; only moves valid targets
+
+Expects a consistent XML structure with <general><product> present
+

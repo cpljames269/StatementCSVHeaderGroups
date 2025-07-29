@@ -1,0 +1,55 @@
+interactive_exceldata_match_to_headersCSV.py
+Purpose:
+Performs interactive fuzzy matching between customer names found in csv_header_groups.json and client names from a filtered customer list (clients_filtered.csv). Used to map external metadata (e.g., Software, Bank, Client ID) to customer names in your parsed statement data.
+
+How it works:
+
+Loads:
+
+Customer names from csv_header_groups.json
+
+Client details from clients_filtered.csv (must include "Client Name" column)
+
+Uses fuzzy string matching (via thefuzz) to suggest the best CSV match for each JSON customer name
+
+Prompts you to confirm or adjust each match
+
+Saves confirmed name pairs to confirmed_matches.json
+
+Example workflow:
+
+pgsql
+Copy
+Edit
+JSON Customer Name: trestle management group
+Best CSV match: trestle management group - az (score: 96)
+Is this a correct match? (y/n): y
+Or:
+
+sql
+Copy
+Edit
+Is this a correct match? (y/n): n
+Other possible matches:
+1: trestle group - ca (score: 91)
+2: ...
+Enter number to select a different match or 'skip' to skip:
+Output: confirmed_matches.json
+
+json
+Copy
+Edit
+{
+  "trestle management group": "trestle management group - az",
+  "essex association management lp": "essex association management lp - tx"
+}
+Used by:
+
+Scripts that enrich csv_header_groups.json with additional client metadata
+(e.g., Software, Bank, Client ID)
+
+Notes:
+
+Requires thefuzz package (pip install thefuzz[speedup])
+
+This script is interactive only. It's meant to confirm new matches as customer data grows.

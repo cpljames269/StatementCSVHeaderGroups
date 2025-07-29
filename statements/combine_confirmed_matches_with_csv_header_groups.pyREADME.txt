@@ -1,0 +1,62 @@
+combine_confirmed_matches_with_csv_header_groups.py
+Purpose:
+Takes the confirmed name mappings from confirmed_matches.json and enriches csv_header_groups.json by injecting metadata fields from clients_filtered.csv (like Bank(s), Software(s), and Client ID).
+
+How it works:
+
+Loads:
+
+csv_header_groups.json → the base parsed customer data
+
+clients_filtered.csv → the metadata spreadsheet (already exported to CSV)
+
+confirmed_matches.json → manually confirmed fuzzy matches between JSON names and CSV names
+
+For every match:
+
+Finds the matching client record in the CSV
+
+Injects the following metadata into each corresponding JSON entry:
+
+Client ID
+
+Bank(s)
+
+Software(s)
+
+Saves a new file:
+➜ rename_to-csv_header_groups.json
+
+Used by:
+
+Final enrichment stage before the web app renders the updated data.
+
+After renaming rename_to-csv_header_groups.json to csv_header_groups.json, your web app reflects the new enriched metadata.
+
+Output example snippet:
+
+json
+Copy
+Edit
+{
+  "customer_name": "Trestle Management Group",
+  "hoa_name": "Trestle HOA",
+  "folder": "trestle_072024",
+  "Client ID": "2688",
+  "Bank(s)": "* First Citizen's Bank",
+  "Software(s)": "* TOPS One"
+}
+Usage sequence:
+
+Run interactive_exceldata_match_to_headersCSV.py to confirm matches
+
+Then run this script to merge and enrich data
+
+Notes:
+
+Non-matching entries in the JSON will be left unchanged.
+
+Confirmed matches must be lowercase and stripped (handled automatically by the script).
+
+Final output will need to be renamed manually (as the filename implies).
+

@@ -1,0 +1,10 @@
+1. copy_CSVs_only_header_remaining.py
+   - Scans all CSV files under C:\testing\statements (excluding Template Creator).
+   - Extracts and saves only the header row into flat CSVs inside Template Creator.
+   - Use this for reviewing raw headers without touching the original files.
+
+
+2. compare_group_headers.py
+   - Scans group folders (group_*) inside Template Creator.
+   - Compares header.txt files across those groups.
+   - Outputs a line-by-line diff report to header_differences_report.txt for analysis.

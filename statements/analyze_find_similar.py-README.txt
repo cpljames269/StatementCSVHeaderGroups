@@ -1,0 +1,54 @@
+analyze_find_similar.py
+Purpose:
+Scans job folders for jobticket.xml and original.csv files, extracts customer and HOA names, detects the CSV header layout, and groups jobs by similar CSV schema.
+
+How it works:
+
+Looks in C:/testing/statements, where each subfolder is a job folder.
+
+Each job folder must contain:
+
+One .xml file with <customer_name> and <hoa_name> fields.
+
+One .csv file (typically a statement export).
+
+The script normalizes and compares CSV headers using known formats (Essex, Vesta, Ascension, Avenues) or heuristics (beginning balance).
+
+Groups similar headers together and assigns them a type (Essex, Standard, etc).
+
+Outputs:
+
+csv_header_groups.json — used by the web app.
+
+csv_header_groups.html — optional HTML preview of the groups.
+
+Output format (JSON):
+
+json
+Copy
+Edit
+[
+  {
+    "header": ["column1", "column2", "..."],
+    "matches": [
+      {
+        "customer_name": "Example Client",
+        "hoa_name": "Example HOA",
+        "folder": "foldername"
+      }
+    ]
+  },
+  ...
+]
+Used by:
+
+The FastAPI web app at /view-csv-schema
+
+Notes:
+
+The HTML file is not required for the web app. Only csv_header_groups.json is used.
+
+Headers that don't match a known layout are tagged as "Needs Help".
+
+HTML generation has been commented out. If it's needed just uncomment but the webapp does this on it's own now
+
